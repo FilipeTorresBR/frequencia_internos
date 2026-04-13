@@ -59,6 +59,12 @@ def extrair_nome_estrito(text, page_num):
         
     return nome_final
 
+
+meses = [
+    "JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO",
+    "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"
+]
+mes_selecionado = st.selectbox("Selecione o mês de referência:", meses)
 uploaded_file = st.file_uploader("Insira o PDF aqui", type="pdf")
 
 if uploaded_file:
@@ -96,7 +102,7 @@ if uploaded_file:
                         
                         pdf_output = io.BytesIO()
                         writer.write(pdf_output)
-                        zf.writestr(f"{nome_interno}.pdf", pdf_output.getvalue())
+                        zf.writestr(f"{nome_interno}_{mes_selecionado}.pdf", pdf_output.getvalue())
                 
                 status.update(label="Processamento concluído!", state="complete", expanded=False)
 
@@ -104,7 +110,7 @@ if uploaded_file:
             st.download_button(
                 label="Baixar Arquivos (ZIP) ⬇️",
                 data=zip_buffer.getvalue(),
-                file_name="internos_separados_ucr.zip",
+                file_name="Frequencia_Individual_" + mes_selecionado +".zip",
                 mime="application/zip"
             )
 
